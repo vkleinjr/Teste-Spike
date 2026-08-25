@@ -1,0 +1,13 @@
+import force_sensor
+import motor
+from hub import port
+
+while True:
+    # Armazene a força do Sensor de Força em uma variável.
+    force = force_sensor.force(port.B)
+
+    # Exiba a variável no Console.
+    print(force)
+
+    # Ligue o motor e use a variável para definir a velocidade.
+    motor.run(port.A, force)
