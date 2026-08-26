@@ -1,0 +1,13 @@
+from hub import port, motion_sensor
+import runloop, motor_pair, sys
+def turn_done():
+    return abs(motion_sensor.tilt_angles()[0] * -0.1) > 90
+async def main():
+    motor_pair.pair(motor_pair.PAIR_1, port.C, port.D)
+    motion_sensor.reset_yaw(0)
+    await runloop.until(motion_sensor.stable)
+    motor_pair.move(motor_pair.PAIR_1, 50, velocity=500)
+    await runloop.until(turn_done)
+    motor_pair.stop(motor_pair.PAIR_1)
+    sys.exit("Done")
+runloop.run(main())
